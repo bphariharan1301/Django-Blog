@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+    {{ post.title }} 
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .btn:hover{
+        background-color: #00b3db;
+        color: #fff;
+    }
+</style>
+
+<h1> {{ post.title }} </h1>
+<small>
+    By: {{ post.author.first_name }} {{ post.author.last_name }}
+    - <a href="{% url 'update_post' post.pk %}">(Edit)</a>
+</small>
+<hr><br>
+<p>
+    {{post.body}}
+</p>
+
+<a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+
+{% endblock %}

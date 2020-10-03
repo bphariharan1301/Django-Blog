@@ -11,17 +11,29 @@
         background-color: #00b3db;
         color: #fff;
     }
+
+    h1{
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 2rem;
+        text-decoration: none;
+        text-align: center;
+    }
 </style>
 
-<h1>Update Post</h1>
-<br><br>
+    {% if user.is_authenticated %}
+        <h1>Update Post</h1>
+        <br><br>
 
-<div class="form-group">
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-    
-        <button class="btn btn-secondary">Update</button>
-</div>
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+            
+                <button class="btn btn-secondary">Update</button>
+        </div>
+    {% else %}
+        <h1>You're Not Authorized to Access this Page</h1>
+    {% endif %}
+
 
 {% endblock %}

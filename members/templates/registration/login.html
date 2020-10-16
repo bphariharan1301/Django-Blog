@@ -6,22 +6,22 @@
 
 {% block content %}
 
-<style>
-    form .btn:hover{
-        background-color: #00b3db;
-        color: #fff;
-    }
-</style>
+    <style>
+        form .btn:hover{
+            background-color: #00b3db;
+            color: #fff;
+        }
+    </style>
 
-<h1>Login</h1>
-<br><br>
+    <h1>Login</h1>
+    <br><br>
 
-<div class="form-group">
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-    
-        <button class="btn btn-secondary">Login</button>
-</div>
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+        
+            <button class="btn btn-secondary">Login</button>
+    </div>
 
 {% endblock %}

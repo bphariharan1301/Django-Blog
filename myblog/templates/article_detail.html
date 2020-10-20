@@ -31,4 +31,15 @@
 
 <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
 
+<br>
+<br>
+<hr>
+
+<form action="{% url 'like_post' post.pk %}" method="POST">
+    {% csrf_token %}
+    <button type="submit", name="post_id", value="{{ post.id }}" class="btn btn-secondary far fa-thumbs-up">
+        <!-- <i class="far fa-thumbs-up 2x"></i> -->
+    </button>
+</form>
+
 {% endblock %}

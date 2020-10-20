@@ -1,6 +1,6 @@
-from django.http import request
-from django.shortcuts import render, HttpResponse
-from django.urls.base import reverse_lazy
+from django.http import request, HttpResponseRedirect
+from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
+from django.urls.base import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Category, Post
 from .forms import EditForm, PostForm # AddCategoryForm, 
@@ -96,6 +96,12 @@ class DeletePostView(DeleteView):
 def CategoryListView(request):
     cat_menu_list = Category.objects.all()
     return render(request, 'category_list.html', {'cat_menu_list':cat_menu_list})
+
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
+
 
 
 

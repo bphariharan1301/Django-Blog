@@ -18,7 +18,7 @@ class Home(ListView):
     model = Post
     template_name = 'home.html'
     ordering = ['-published_date']
-
+    # categories dropdown
     def get_context_data(self, *args, **kwargs):
         cat_menu = Category.objects.all()
         context = super(Home, self).get_context_data(*args, **kwargs)
@@ -32,7 +32,10 @@ class ArticleDetail(DetailView):
     def get_context_data(self, *args, **kwargs):
         cat_menu = Category.objects.all()
         context = super(ArticleDetail, self).get_context_data(*args, **kwargs)
+        values = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = values.total_likes()
         context["cat_menu"] =  cat_menu
+        context["total_likes"] =  total_likes
         return context
 
 class AddPostView(CreateView):
@@ -50,7 +53,6 @@ class AddPostView(CreateView):
         context = super(AddPostView, self).get_context_data(*args, **kwargs)
         context["cat_menu"] =  cat_menu
         return context
-
 
 def CategoryView(request, cats):
     category_post = Post.objects.filter(category = cats.replace('-', ' '))    
@@ -100,7 +102,14 @@ def CategoryListView(request):
 def LikeView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
     post.likes.add(request.user)
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+        liked = True
     return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
+
 
 
 

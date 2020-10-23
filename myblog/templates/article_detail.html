@@ -37,9 +37,12 @@
 
 <form action="{% url 'like_post' post.pk %}" method="POST">
     {% csrf_token %}
-    <button type="submit", name="post_id", value="{{ post.id }}" class="btn btn-secondary far fa-thumbs-up">
+    <button type="submit", name="post_id", value="{{ post.id }}" class="btn btn-secondary active far fa-thumbs-up">
         <!-- <i class="far fa-thumbs-up 2x"></i> -->
-    </button>
+    </button> {{ total_likes }}
+    <button type="submit", name="post_id", value="{{ post.id }}" class="btn btn-secondary far fa-thumbs-down">
+        <!-- <i class="far fa-thumbs-up 2x"></i> -->
+    </button> {{ total_likes }}
 </form>
 
 {% endblock %}

@@ -26,11 +26,6 @@
                         - <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
                     {% endif %}
                 {% endif %}
-
-                <button type="submit", name="post_id", value="{{ post.id }}" class="btn btn-secondary btn-sm far fa-thumbs-up 2x">
-                    <!-- <i class="far fa-thumbs-up 2x"></i> -->
-                </button>
-
             </small>
             <br>
         {{ post.body|slice:":200"|safe }}

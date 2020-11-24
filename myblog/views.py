@@ -32,10 +32,18 @@ class ArticleDetail(DetailView):
     def get_context_data(self, *args, **kwargs):
         cat_menu = Category.objects.all()
         context = super(ArticleDetail, self).get_context_data(*args, **kwargs)
+
         values = get_object_or_404(Post, id=self.kwargs['pk'])
         total_likes = values.total_likes()
+        
+        # total_dislikes = values.total_dislikes()
+        liked = False
+        if values.likes.filter(id=self.request.user.id).exists():
+            liked = True
+        context["liked"] =  liked
         context["cat_menu"] =  cat_menu
         context["total_likes"] =  total_likes
+        # context["total_dislikes"] = total_dislikes
         return context
 
 class AddPostView(CreateView):
@@ -101,15 +109,25 @@ def CategoryListView(request):
 
 def LikeView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
-    post.likes.add(request.user)
     liked = False
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
+        liked = False
     else:
-        post.likes.add(request.user)
-        liked = True
+        post.likes.add(request.user)  
+        liked = True 
     return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
 
+# def UnlikeView(request, pk):
+#     post = get_object_or_404(Post, id=request.POST.get('post_id'))
+#     unliked = False
+#     if post.unlikes.filter(id=request.user.id).exists():
+#         post.unlikes.remove(request.user)
+#         unliked = False
+#     else:
+#         post.unlikes.add(request.user)
+#         unliked = True
+#     return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
 
 
 

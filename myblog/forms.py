@@ -15,22 +15,24 @@ for i in choices:
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'author','category', 'body')
+        fields = ('title', 'author','category', 'header_image', 'snippet','body')
         widgets={
             'title' : forms.TextInput(attrs={'class':'form-control'}),
             'author' : forms.Select(attrs={'class':'form-control'}),
             'category' : forms.Select(choices=choice_list, attrs={'class':'form-control'}),
             # 'category' : forms.Select(attrs={'class':'form-control'}),
             'body' : forms.Textarea(attrs={'class':'form-control'}),
+            'snippet' : forms.Textarea(attrs={'class':'form-control'}),
         }
 
 class EditForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'body')
+        fields = ('title', 'snippet', 'header_image', 'body')
         widgets={
             'title' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Sectumsempra Spell'}),
             'body' : forms.Textarea(attrs={'class':'form-control', 'placeholder':'For enemies'}),
+            'snippet' : forms.Textarea(attrs={'class':'form-control'}),
         }
 
 '''

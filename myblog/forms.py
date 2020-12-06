@@ -29,7 +29,7 @@ class EditForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('title', 'snippet', 'header_image', 'body')
-        widgets={
+        widgets = {
             'title' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Sectumsempra Spell'}),
             'body' : forms.Textarea(attrs={'class':'form-control', 'placeholder':'For enemies'}),
             'snippet' : forms.Textarea(attrs={'class':'form-control'}),

@@ -12,10 +12,10 @@
     <title>{%block title %} Welcome | {% endblock %} </title>
   </head>
   <body>      
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{% url 'home' %}">
-          <!-- <img src="./img/logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy"> -->
-          TecH BoiZs
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
+        <a class="navbar-brand active" href="{% url 'home' %}">
+           <!-- <img src="./img/logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy"> -->
+           TecH BoiZs
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -25,51 +25,87 @@
           <ul class="navbar-nav mr-auto">
             {% if user.is_authenticated %}
               {% if user.is_staff %}
+                {% if 'add_post' in request.path %}
+                    <li class="nav-item">
+                      <a class="nav-link active" href="{% url 'add_post' %}">Add Post</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'add_post' %}">Add Post</a>
+                    </li>
+                {% endif %}
+                {% if 'add_category' in request.path %}
+                  <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'add_category' %}">Add Category</a>
+                  </li>
+                {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'add_category' %}">Add Category</a>
+                  </li>
+                {% endif %}
+              {% endif %}
+              {% if 'edit_profile' in request.path %}
                 <li class="nav-item">
-                  <a class="nav-link active" href="{% url 'add_post' %}">Add Post</a>
+                  <a class="nav-link active" href="{% url 'edit_profile' %}">Edit Profile</a>
                 </li>
+              {% else %}  
                 <li class="nav-item">
-                  <a class="nav-link active" href="{% url 'add_category' %}">Add Category</a>
+                  <a class="nav-link" href="{% url 'edit_profile' %}">Edit Profile</a>
                 </li>
               {% endif %}
-              <li class="nav-item">
-                <a class="nav-link active" href="{% url 'edit_profile' %}">Edit Profile</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
-              </li>
-            {% else %}
-              <li class="nav-item">
-                <a class="nav-link active" href="{% url 'register' %}">Register</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="{% url 'login' %}">Login</a>
-              </li>
-          {% endif %}
-
-          <!-- {% if user.is_staff %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'add_post' %}">Add Cat</a>
-          </li>
-          {% endif %} -->
+              {% if 'logout' in request.path %}
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
+                </li>
+              {% else %}  
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+              {% endif %}
+            {% else %} <!-- authenticated else -->
+              {% if 'add_post' in request.path %}
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'register' %}">Register</a>
+                </li>
+              {% else %}  
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+              {% endif %}
+              {% if 'add_post' in request.path %}
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'login' %}">Login</a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+              {% endif %}
+            {% endif %} <!-- authenticated if -->
             <!-- Category Menu Code -->
-          {% if cat_menu %}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Categories
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  {% for item in cat_menu %}
-                    <a class="dropdown-item" href="{% url 'category' item|slugify %}">
-                      {{item}}
-                    </a>
-                  {% endfor %}
-                </div>
-              </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'category_list' %}">Categories</a>
-            </li>
-          {% endif %} 
+            {% if cat_menu %}
+                <li class="nav-item dropdown"> 
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories <!-- Dropdown Categories -->
+                  </a> 
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for item in cat_menu %}
+                      <a class="dropdown-item" href="{% url 'category' item|slugify %}">
+                        {{item}}
+                      </a>
+                    {% endfor %}
+                  </div>
+                </li>
+              {% if 'category-list' in request.path %}
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'category_list' %}">Categories</a> <!-- Category List -->
+                </li> 
+              {% else %}  
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'category_list' %}">Categories</a> <!-- Category List -->
+                </li> 
+              {% endif %}
+            {% endif %}  
           </ul>
         </div>
       </nav>

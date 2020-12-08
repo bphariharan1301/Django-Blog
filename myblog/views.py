@@ -1,3 +1,4 @@
+from django.db import connection
 from django.http import request, HttpResponseRedirect
 from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
 from django.urls.base import reverse, reverse_lazy
@@ -102,9 +103,22 @@ class DeletePostView(DeleteView):
         context["cat_menu"] =  cat_menu
         return context
 
-def CategoryListView(request):
+'''def CategoryListView(request):
     cat_menu_list = Category.objects.all()
-    return render(request, 'category_list.html', {'cat_menu_list':cat_menu_list})
+    return render(request, 'category_list.html', {'cat_menu_list':cat_menu_list})'''
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'category_list.html'
+
+    def get_context_data(self, *args ,**kwargs):
+        cat_menu = Category.objects.all()
+        cat_menu_list = Category.objects.all()
+        context = super(CategoryListView, self).get_context_data(*args, **kwargs)
+        context["cat_menu"] = cat_menu
+        context["cat_menu_list"] = cat_menu_list
+        return context
+
 
 def LikeView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))

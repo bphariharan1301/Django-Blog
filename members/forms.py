@@ -1,4 +1,5 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
+from io import SEEK_CUR
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import fields
@@ -17,6 +18,23 @@ class SignUpForm(UserCreationForm):
         self.fields['username'].widget.attrs['class'] = 'form-control'
         self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['class'] = 'form-control'
+
+'''class SignInForm(AuthenticationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+    def __init__(self, *args, **kwargs):
+        super(SignInForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['password1'].widget.attrs['class'] = 'form-control'''
+
+'''class SignInForm(AuthenticationForm):
+    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control'}))
+    password = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password'}))
+
+    class Meta:
+        model = User
+        fields('username', 'password')'''
 
 
 class EditProfileForm(UserChangeForm):

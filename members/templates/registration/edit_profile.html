@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title  %}
-    Edit Profile
+    Edit Settings
 {% endblock %}
 
 {% block content %}
@@ -13,20 +13,24 @@
     }
 </style>
 
-<h1>Edit Profile</h1>
+<h1>Edit Settings</h1>
 <br><br>
+{% if user.is_authenticated %}
+    {{ user.profile.bio }}
 
-{{ user.profile.bio }}
-
-<br><br>
+    <br><br>
 
 
-<div class="form-group">
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-    
-        <button class="btn btn-secondary">Update</button>
-</div>
-
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+        
+            <button class="btn btn-secondary">Update</button>
+    </div>
+{% else %}
+    <h1 class="danger">
+        You are not logged in..
+    </h1>
+{% endif %}
 {% endblock %}

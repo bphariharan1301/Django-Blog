@@ -72,10 +72,12 @@
 				{{ post.author.last_name }}
 			  </h5>
 			  <p class="card-text text-muted">
+				<a href="{% url 'show_profile_page' post.author.profile.id %}">Profile Page</a>
+					
 					{% if post.author.profile.fb_url %}	
-						<a href="{{ post.author.profile.fb_url }}">
-							<i class="fab fa-facebook"></i>
-						</a> 
+						  | <a href="{{ post.author.profile.fb_url }}">
+								<i class="fab fa-facebook"></i>
+							</a> 
 					{% endif %}
 
 					{% if post.author.profile.portfolio_url %}	

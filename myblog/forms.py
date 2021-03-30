@@ -2,7 +2,7 @@ from os import name
 from django import forms
 from django.forms import fields
 from django.forms import widgets
-from .models import Category, Post
+from .models import Category, Comment, Post
 
 # choices = [('coding', 'coding'), ('technology','technology'), ('sports','sports'),]
 
@@ -46,3 +46,13 @@ class AddCategoryForm(forms.ModelForm):
 
         choice_list.append(name)
 '''
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('name', 'body')
+
+        widgets = {
+            'name'  : forms.TextInput(attrs={'class':'form-control'}),
+            'body' : forms.Textarea(attrs={'class':'form-control'}) # body of the comment
+        }

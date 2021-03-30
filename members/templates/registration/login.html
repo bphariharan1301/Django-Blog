@@ -19,7 +19,18 @@
     <div class="form-group">
         <form method="POST"> <!--  action="{% url 'login' %}" -->
             {% csrf_token %}
-            {{ form.as_p }}
+            
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Username : </label>
+                <input type="email" class="form-control" name="username">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password : </label>
+                <input type="password" class="form-control" name="password">
+              </div>
+              <div id="emailHelp" class="form-text">
+                  New Here? Sign up for free <a href="{% url 'register' %}">Here</a>
+              </div>
             
 
             <br>

@@ -1,11 +1,13 @@
+from django import forms
 from django.db import connection
+from django.forms import fields
 from django.http import request, HttpResponseRedirect
 from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
 from django.urls.base import reverse, reverse_lazy
+from django.views import generic
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Category, Post
-from .forms import EditForm, PostForm # AddCategoryForm, 
-
+from .models import Category, Comment, Post, Profile
+from .forms import EditForm, PostForm, CommentForm 
 # Create your views here.
 
 # def home(request):
@@ -13,7 +15,6 @@ from .forms import EditForm, PostForm # AddCategoryForm,
 #     dict = {'posts':post}
 #     return render(request, 'home.html', dict)
 # Just to show that we can use function also 
-
 
 class Home(ListView):
     model = Post
@@ -25,6 +26,24 @@ class Home(ListView):
         context = super(Home, self).get_context_data(*args, **kwargs)
         context["cat_menu"] =  cat_menu
         return context
+
+class CommentView(CreateView):
+    # def add_comment():
+    model = Comment
+    form_class = CommentForm
+    template_name = 'add_comment.html'
+    # fields = '__all__'
+    def form_valid(self, form):
+        form.instance.post_id = self.kwargs['pk']
+        return super().form_valid(form)
+    context = Post.id 
+    # def add_comment():
+    #     context = Post.id
+    #     return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
+
+    success_url = reverse_lazy('home')
+
+    # <!-- <a href="#{% url 'article_detail' post.pk %}"></a> -->
 
 class ArticleDetail(DetailView):
     model = Post
@@ -45,6 +64,16 @@ class ArticleDetail(DetailView):
         context["total_likes"] =  total_likes
         # context["total_dislikes"] = total_dislikes
         return context
+    def Comment():
+        model = Comment
+        form_class = CommentForm
+        template_name = 'article_detail.html'
+        def form_valid(self, form):
+            form.instance.post_id = self.kwargs['pk']
+            return super().form_valid(forms)
+
+        success_url = reverse_lazy('home') 
+
 
 class AddPostView(CreateView):
     model = Post
@@ -125,7 +154,7 @@ def LikeView(request, pk):
     liked = False
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
-        liked = False
+        liked = False 
     else:
         post.likes.add(request.user)  
         liked = True 
@@ -142,7 +171,11 @@ def LikeView(request, pk):
 #         unliked = True
 #     return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
 
-
+# class AddCommentView(ListView):
+#     model = Comment
+#     # form_class = CommentForm
+#     template_name = 'article_detail.html'
+#     fields = '__all__'
 
 
 

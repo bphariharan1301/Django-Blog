@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import fields
 from django.db.models.enums import Choices
+from django.http.response import HttpResponseRedirect
 from django.urls import reverse
 from datetime import datetime, date
 from ckeditor.fields import RichTextField
@@ -30,6 +31,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user)
+    
+    def get_absolute_url(self):
+        return reverse('home')
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
@@ -58,4 +62,11 @@ class Post(models.Model):
     # def total_dislikes(self): # return dislikes count
     #     return self.dislikes.count()
 
-        
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments' , on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    date_added = models.DateTimeField(auto_now_add=True)
+    body = models.TextField()
+    # def get_absolute_url(self):
+        # return HttpResponseRedirect(reverse('article_detail', args=[str(Post.id)]))

@@ -37,18 +37,13 @@ class Profile(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    # title_tag = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    # header_image = models.ImageField(null=True, blank=True, upload_to='images/')
     header_image = models.ImageField(null=True, blank=True, upload_to="images/")
-    # category = models.ForeignKey(Category, on_delete=models.CASCADE)
     category = models.CharField(max_length=100, default='coding')
     body = RichTextField(blank=True, null=True)
     snippet = models.CharField(max_length=255, default='Snippet to be Added')
-    # body = models.TextField()
     published_date = models.DateField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='blog_posts_likes')
-    # dislikes = models.ManyToManyField(User, related_name='blog_posts_dislikes')
 
     def __str__(self):
         return self.title + ' | ' + str(self.author)

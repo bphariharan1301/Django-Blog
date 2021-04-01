@@ -43,8 +43,6 @@ class CommentView(CreateView):
 
     success_url = reverse_lazy('home')
 
-    # <!-- <a href="#{% url 'article_detail' post.pk %}"></a> -->
-
 class ArticleDetail(DetailView):
     model = Post
     template_name = 'article_detail.html'
@@ -85,11 +83,6 @@ class AddPostView(CreateView):
 
     # We dont need the fields var since the forms.py will take care of those froms stuffs
 
-    def get_context_data(self, *args, **kwargs):
-        cat_menu = Category.objects.all()
-        context = super(AddPostView, self).get_context_data(*args, **kwargs)
-        context["cat_menu"] =  cat_menu
-        return context
 
 def CategoryView(request, cats):
     category_post = Post.objects.filter(category = cats.replace('-', ' '))    
@@ -160,22 +153,7 @@ def LikeView(request, pk):
         liked = True 
     return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
 
-# def UnlikeView(request, pk):
-#     post = get_object_or_404(Post, id=request.POST.get('post_id'))
-#     unliked = False
-#     if post.unlikes.filter(id=request.user.id).exists():
-#         post.unlikes.remove(request.user)
-#         unliked = False
-#     else:
-#         post.unlikes.add(request.user)
-#         unliked = True
-#     return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
 
-# class AddCommentView(ListView):
-#     model = Comment
-#     # form_class = CommentForm
-#     template_name = 'article_detail.html'
-#     fields = '__all__'
 
 
 

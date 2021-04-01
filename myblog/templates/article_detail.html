@@ -8,10 +8,10 @@
 {% block content %}
 
 	<h1>{{ post.title }}</h1>
-	<small>By: 
+	<small class="text-muted">By: 
 		{{ post.author.first_name }} 
 		{{ post.author.last_name }} - 
-		{{ post.post_date }}  
+		{{ post.published_date }}  
 		
 		{% if user.is_authenticated %}
 			{% if user.id == post.author.id %}
@@ -25,11 +25,15 @@
 	<br/>
 	
 	{% if post.header_image %}
-		<img src="{{ post.header_image.url }}">
+		<img src="{{ post.header_image.url }}" class="card-img-top">
+	{% else %}
+		<img src="{% static 'blog/images/default-blog-post-image.png' %}" class="card-img-top">
 	{% endif %}
 
 	<br/><br/>
-	{{ post.body|safe }}
+	<p class="card-text">
+		{{ post.body|safe }}
+	</p>
 
 	<hr>
 	
@@ -79,37 +83,39 @@
 						{{ post.author.last_name }}
 					  </h5>
 					  <p class="card-text text-muted">
-						<a href="{% url 'show_profile_page' post.author.profile.id %}">Profile Page</a>
+						<a href="{% url 'show_profile_page' post.author.profile.id %}">
+							<i class="far fa-user"></i>
+						</a>
 							
 							{% if post.author.profile.fb_url %}	
-								  | <a href="{{ post.author.profile.fb_url }}">
+								  | <a href="{{ post.author.profile.fb_url }}" target="__blank__">
 										<i class="fab fa-facebook"></i>
 									</a> 
 							{% endif %}
 		
 							{% if post.author.profile.portfolio_url %}	
-								| <a href="{{ post.author.profile.portfolio_url }}">
+								| <a href="{{ post.author.profile.portfolio_url }}" target="__blank__">
 									<i class="fas fa-portrait"></i> 
 								</a> 
 							{% endif %}
 		
 							{% if post.author.profile.twitter_url %}	
-								| <a href="{{ post.author.profile.twitter_url }}">
+								| <a href="{{ post.author.profile.twitter_url }}" target="__blank__">
 									<i class="fab fa-twitter"></i> 
 								</a> 
 							{% endif %}
 							{% if post.author.profile.insta_url %}	
-								| <a href="{{ post.author.profile.insta_url }}">
+								| <a href="{{ post.author.profile.insta_url }}" target="__blank__">
 										<i class="fab fa-instagram"></i> 
 								</a> 
 							{% endif %}
 							{% if post.author.profile.pinterest_url %}	
-								| <a href="{{ post.author.profile.pinterest_url }}">
+								| <a href="{{ post.author.profile.pinterest_url }}" target="__blank__">
 									<i class="fab fa-pinterest"></i> 
 								</a> 
 							{% endif %}
 							{% if post.author.profile.linkedin_url %}	
-								| <a href="{{ post.author.profile.linkedin_url }}">
+								| <a href="{{ post.author.profile.linkedin_url }}" target="__blank__">
 										<i class="fab fa-linkedin"></i> 
 								</a> 
 							{% endif %}
@@ -135,17 +141,20 @@
 	<h2 style="text-decoration: underline;">
 		Comments
 	</h2>
+	
 	{% if not post.comments.all %}
 		<p>
 			No Comments Yet... <!-- Click here to Add One</a> -->
 		</p>
 	{% else %}
 		{% for comment in post.comments.all %}
+			<hr>
 			<strong>
 				{{ comment.name }} - {{ comment.date_added }}
 			</strong>
 			<br>
 			{{ comment.body }} <br> <br>
+			
 		{% endfor %}
 	{% endif %}
 	<hr>
@@ -154,5 +163,5 @@
 
 <br/>
 
-<br/><br/>
+<br/>
 {% endblock %}

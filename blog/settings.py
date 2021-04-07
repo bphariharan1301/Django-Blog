@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import dj_database_url
+import django_heroku
 import os
 from pathlib import Path
 from decouple import config
@@ -30,6 +31,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['/techboizs.herokuapp.com','127.0.0.1']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -144,6 +146,8 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+django_heroku.settings(locals)
 
 
 
